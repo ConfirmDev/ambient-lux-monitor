@@ -1,0 +1,163 @@
+# Ambient Lux Monitor
+
+An ambient light monitoring system developed using NI LabVIEW 2021 SP1 and MyRIO-1900 hardware platform.
+
+## Project Overview
+
+This project implements a real-time ambient light monitoring system that reads analog sensor data, processes light intensity measurements, logs data, and provides visual indicators. The system is designed to run on the NI MyRIO-1900 embedded hardware platform.
+
+## Hardware Requirements
+
+- **NI MyRIO-1900** - Embedded hardware platform
+- **Light Sensor (LDR/Photoresistor)** - Connected to analog input
+- **Power Supply** - As per MyRIO specifications
+- **Additional Components** - Resistors, breadboard for sensor circuit
+
+## Software Requirements
+
+- **NI LabVIEW 2021 SP1** or later
+- **NI LabVIEW myRIO Software Bundle** - For MyRIO support
+- **NI MAX (Measurement & Automation Explorer)** - For device configuration
+
+## Project Structure
+
+```
+ambient-lux-monitor/
+├── README                      # This file
+├── Report.pdf                  # Project documentation and report
+└── VI Files/                   # LabVIEW Virtual Instruments
+    ├── MiniProject.vi          # Main VI - Entry point
+    ├── AnalogsRead.vi          # Reads analog sensor inputs
+    ├── LuxResistance.vi        # Converts resistance to lux values
+    ├── ConditionLux.vi         # Applies conditions/thresholds to lux data
+    ├── Mapping.vi              # Maps sensor values to display range
+    ├── Indicators.vi           # Visual indicators and displays
+    ├── DataLog.vi              # Data logging functionality
+    ├── SendDataLogTele.vi      # Telemetry/data transmission
+    └── RisingEdge.vi           # Edge detection for events
+```
+
+## Installation & Setup
+
+### 1. LabVIEW Configuration
+
+1. Install **NI LabVIEW 2021 SP1**
+2. Install **LabVIEW myRIO Software Bundle** from ni.com
+3. Launch LabVIEW and verify myRIO toolkit is available
+
+### 2. MyRIO Hardware Setup
+
+1. Connect MyRIO-1900 to your computer via USB or Ethernet
+2. Power on the MyRIO device
+3. Open **NI MAX (Measurement & Automation Explorer)**
+4. Locate your MyRIO under "Remote Systems"
+5. Configure network settings (if using Ethernet)
+6. Format the MyRIO storage if needed
+
+### 3. Sensor Connection
+
+Connect the light sensor (LDR) to MyRIO analog inputs:
+- **AI0+** - LDR output
+- **AI0-** - Ground reference
+- Configure voltage divider circuit as per project schematic
+
+### 4. Project Deployment
+
+1. Open `MiniProject.vi` in LabVIEW
+2. Set the target to your MyRIO device
+3. Configure project properties:
+   - Target: MyRIO-1900
+   - Execution: Run as Startup
+4. Build and deploy to MyRIO
+5. Verify deployment in NI MAX
+
+## Running the Project
+
+### From LabVIEW IDE
+
+1. Open `VI Files/MiniProject.vi`
+2. Ensure MyRIO is connected and recognized
+3. Click the **Run** button (white arrow)
+4. Monitor real-time data on the front panel
+5. Stop execution with the **Stop** button
+
+### Standalone on MyRIO
+
+1. Build the project as a startup application
+2. Deploy to MyRIO
+3. Restart MyRIO - application runs automatically
+4. Access data logs via FTP or network share
+
+## VI Descriptions
+
+### Main Application
+- **MiniProject.vi** - Main control loop, orchestrates all sub-VIs
+
+### Data Acquisition
+- **AnalogsRead.vi** - Interfaces with MyRIO analog inputs, reads voltage from sensor
+- **LuxResistance.vi** - Calculates resistance and converts to lux units
+- **Mapping.vi** - Maps raw sensor data to appropriate display scale
+
+### Processing & Control
+- **ConditionLux.vi** - Implements threshold detection and state logic
+- **RisingEdge.vi** - Detects rising edge events for triggers
+
+### Output & Logging
+- **Indicators.vi** - Updates LED indicators and display elements
+- **DataLog.vi** - Writes timestamped data to CSV files
+- **SendDataLogTele.vi** - Transmits data for remote monitoring/telemetry
+
+## Configuration
+
+### Log File Location
+MyRIO: `/home/lvuser/<filename.txt>`
+TXT Format: Timestamp, Lux Value, Status
+
+### Threshold Values
+Configure in `ConditionLux.vi`:
+- Low Light: < 100 lux
+- Normal: 100-500 lux
+- Bright: > 500 lux
+
+## Troubleshooting
+
+### MyRIO Not Detected
+- Verify USB/Ethernet connection
+- Check device status in NI MAX
+- Restart MyRIO and LabVIEW
+- Update myRIO firmware if needed
+
+### No Sensor Readings
+- Verify sensor wiring to analog inputs
+- Check power supply to sensor circuit
+- Test analog input with known voltage source
+- Review sensor calibration
+
+### Data Not Logging
+- Verify write permissions on MyRIO
+- Check available storage space
+- Review DataLog.vi error handling
+- Ensure directory paths exist
+
+## Contributing
+
+For modifications:
+1. Clone or fork the repository
+2. Make changes in LabVIEW
+3. Test thoroughly on MyRIO hardware
+4. Document changes in commit messages
+5. Update this README if adding features
+
+## Authors
+
+- Project developed for ambient light monitoring applications
+- NI MyRIO-1900 embedded system implementation
+
+## References
+
+- NI LabVIEW Documentation: https://www.ni.com/documentation/
+- MyRIO User Guide: https://www.ni.com/pdf/manuals/376047a.pdf
+- LabVIEW myRIO Toolkit Help
+
+---
+**Note**: This project requires NI LabVIEW 2021 SP1 and compatible myRIO software. Ensure all hardware is properly configured before deployment.
